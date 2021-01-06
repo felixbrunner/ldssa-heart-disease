@@ -39,8 +39,6 @@ DB.create_tables([Prediction], safe=True)
 app = Flask(__name__)
 
 
-
-
 @app.route('/predict', methods=['POST'])
 def predict():
     """
@@ -174,38 +172,6 @@ def predict():
         DB.rollback()
 
     return jsonify(response)
-
-# def predict():
-#     # deserialise data
-#     raw = request.get_json()
-#     _id = raw['id']
-#     data = raw['observation']
-
-#     # create dataframe
-#     try:
-#         X = pd.DataFrame([data], columns=columns).astype(dtypes)
-#     except ValueError:
-#         error_msg = 'Observation is invalid!'
-#         response = {'error': error_msg}
-#         print(error_msg)
-#         return jsonify(response)
-
-#     # predict
-#     proba = pipeline.predict_proba(X)[0, 1]
-#     response = {'proba': proba}
-#     p = Prediction(
-#         observation_id=_id,
-#         proba=proba,
-#         observation=request.data
-#     )
-#     try:
-#         p.save()
-#     except IntegrityError:
-#         error_msg = 'Observation ID: "{}" already exists'.format(_id)
-#         response['error'] = error_msg
-#         print(error_msg)
-#         DB.rollback()
-#     return jsonify(response)
 
 
 @app.route('/update', methods=['POST'])
